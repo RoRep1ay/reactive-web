@@ -4,8 +4,8 @@ import com.example.reactiveweb.model.Product
 
 interface ProductService {
     fun getProducts(): List<Product>
-    fun getProductById(id: Long): Product
-    fun deleteProductById(id: Long): Unit
-    fun updateProductById(id: Long, productName: String, quantity: String): Product
-    fun createProduct(productName: String, quantity: String): Product
+    fun getProductById(id: Int): Product
+    fun deleteProductById(id: Int): Unit
+    fun updateProductById(id: Int, productName: String, quantity: Long): Product
+    fun createProduct(productName: String, quantity: Long): Product
 }

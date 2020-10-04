@@ -7,6 +7,6 @@ interface ProductRepository {
     fun getProductById(id: Int): Product?
     fun deleteProduct(product: Product): Unit
     fun updateProductById(productIndex: Int, productName: String, quantity: Long): Product
-    fun createProduct(productName: String, quantity: String): Product
+    fun createProduct(productName: String, quantity: Long): Product
     fun getProductIndexById(id: Int): Int?
 }

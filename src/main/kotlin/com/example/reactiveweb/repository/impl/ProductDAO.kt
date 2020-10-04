@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository
 import java.time.OffsetDateTime
 
 @Repository
-class ProductDAO(): ProductRepository {
+class ProductDAO: ProductRepository {
 
     companion object {
         val products = mutableListOf(
@@ -14,6 +14,10 @@ class ProductDAO(): ProductRepository {
             Product(2, "Fanta", 24, OffsetDateTime.now(), OffsetDateTime.now()),
             Product(3, "Pepsi", 33, OffsetDateTime.now(), OffsetDateTime.now())
         )
+
+        fun getNextId(): Int {
+            return products.last().id + 1
+        }
     }
 
     override fun getProducts(): List<Product> {
@@ -21,28 +25,26 @@ class ProductDAO(): ProductRepository {
     }
 
     override fun getProductById(id: Int): Product? {
-        return products.find { it.pId == id }
+        return products.find { it.id == id }
     }
 
     override fun getProductIndexById(id: Int): Int? {
-        return products.find { it.pId == id }?.let { products.indexOf(it) }
+        return products.find { it.id == id }?.let { products.indexOf(it) }
     }
 
     override fun deleteProduct(product: Product) {
         products.remove(product)
     }
 
-    override fun createProduct(productName: String, quantity: String): Product {
-        TODO("Not yet implemented")
-//    override fun updateProductById(currentProduct: Product, productName: String, quantity: Long): Product {
-//        return products.find { it.pId == id }?.let {
-//            it.copy(pName = productName, updatedAt = OffsetDateTime.now(), quantity = quantity)
-//        }
+    override fun createProduct(productName: String, quantity: Long): Product {
+        val product = Product(id = getNextId(), name = productName, quantity =  quantity, createdAt = OffsetDateTime.now(), updatedAt = OffsetDateTime.now())
+        products.add(product)
+        return product
     }
 
     override fun updateProductById(productIndex: Int, productName: String, quantity: Long): Product {
         val currentProduct = products[productIndex]
-        val updateProduct = currentProduct.copy()
+        val updateProduct = currentProduct.copy(name = productName, quantity = quantity, updatedAt = OffsetDateTime.now())
         return products.set(productIndex, updateProduct)
     }
 }
